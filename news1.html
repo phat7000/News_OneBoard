@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Định Dạng HTML</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+        h1 { color: blue; text-align: center; }
+        h2 { color: darkred; }
+        .bold { font-weight: bold; }
+        .italic { font-style: italic; }
+        .underline { text-decoration: underline; }
+        .highlight { background-color: yellow; }
+        .center { text-align: center; }
+        .right { text-align: right; }
+        .color-red { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Tiêu đề chính (H1)</h1>
+    <h2>Tiêu đề phụ (H2)</h2>
+    <p>Đây là đoạn văn bản bình thường.</p>
+    <p class="bold">Đây là chữ in đậm.</p>
+    <p class="italic">Đây là chữ in nghiêng.</p>
+    <p class="underline">Đây là chữ gạch chân.</p>
+    <p class="highlight">Đây là đoạn văn có nền màu vàng.</p>
+    <p class="color-red">Đây là đoạn văn có chữ màu đỏ.</p>
+    <p class="center">Đây là đoạn văn được căn giữa.</p>
+    <p class="right">Đây là đoạn văn được căn phải.</p>
+    
+    <h2>Danh sách có dấu chấm:</h2>
+    <ul>
+        <li>Mục đầu tiên</li>
+        <li>Mục thứ hai</li>
+        <li><b>Mục thứ ba in đậm</b></li>
+        <li><i>Mục thứ tư in nghiêng</i></li>
+    </ul>
+    
+    <h2>Danh sách có dấu gạch ngang:</h2>
+    <ul style="list-style-type: none;">
+        <li>- Mục đầu tiên</li>
+        <li>- Mục thứ hai</li>
+        <li>- <span class="bold">Mục thứ ba in đậm</span></li>
+        <li>- <span class="italic">Mục thứ tư in nghiêng</span></li>
+    </ul>
+    
+    <h2>Liên kết:</h2>
+    <p><a href="https://www.example.com" target="_blank">Đây là một liên kết đến Example.com</a></p>
+    
+    <h2>Hình ảnh:</h2>
+    <img src="https://via.placeholder.com/300" alt="Ảnh mẫu" width="300">
+    
+    <h2>Bảng:</h2>
+    <table border="1" cellpadding="8" cellspacing="0">
+        <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Ghi chú</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Nguyễn Văn A</td>
+            <td><b>Đã xác nhận</b></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Trần Thị B</td>
+            <td><i>Chờ duyệt</i></td>
+        </tr>
+    </table>
+</body>
+</html>
