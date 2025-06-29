@@ -1,17 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Event Registration</title>
+  <title>Đăng kí sự kiện</title>
+
+  <!-- Firebase SDK dùng cho Firebase Hosting -->
   <script defer src="/__/firebase/11.1.0/firebase-app-compat.js"></script>
   <script defer src="/__/firebase/11.1.0/firebase-firestore-compat.js"></script>
   <script defer src="/__/firebase/init.js"></script>
+
   <style>
-    body { font-family: sans-serif; margin: 40px; }
-    h1 { color: #1976d2; }
-    label { display: block; margin-top: 12px; }
-    input, select, textarea { width: 100%; padding: 8px; margin-top: 4px; }
-    button { margin-top: 16px; padding: 8px 16px; }
+    body {
+      font-family: sans-serif;
+      margin: 40px;
+    }
+    h1 {
+      color: #1976d2;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 16px;
+      padding: 8px 16px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #125a9c;
+    }
   </style>
 </head>
 <body>
@@ -35,42 +61,50 @@
     <label>Ghi chú:
       <textarea id="note"></textarea>
     </label>
-    <button type="submit">Submit</button>
+    <button type="submit">Gửi đăng kí</button>
   </form>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Hàm lấy giá trị từ URL
+      function getParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param) || '';
+      }
+
+      // Gán name/email vào form
+      const name = getParam('name');
+      const email = getParam('email');
       const nameField = document.getElementById('name');
       const emailField = document.getElementById('email');
-      function getParam(param) {
-	  const urlParams = new URLSearchParams(window.location.search);
-	  return urlParams.get(param) || '';
-	}
+      nameField.value = name;
+      emailField.value = email;
 
-	nameField.value = getParam('name');
-	emailField.value = getParam('email');
-
-
+      // Xử lý submit
       const db = firebase.firestore();
       const form = document.getElementById('eventForm');
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
         const data = {
-          name: nameField.value,
-          email: emailField.value,
+          name: name,
+          email: email,
           participate: document.getElementById('participate').value === 'yes',
           location: document.getElementById('location').value,
           note: document.getElementById('note').value,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         };
+
         try {
           await db.collection('event').add(data);
-          alert('Đăng kí thành công!');
+          alert('✅ Đăng kí thành công!');
           form.reset();
-          nameField.value = '{{NAME}}';
-          emailField.value = '{{EMAIL}}';
+          nameField.value = name;
+          emailField.value = email;
         } catch (err) {
           console.error(err);
-          alert('Đăng kí thất bại');
+          alert('❌ Đăng kí thất bại');
         }
       });
     });
