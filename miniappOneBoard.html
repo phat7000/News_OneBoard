@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Event Registration</title>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script defer src="/__/firebase/11.1.0/firebase-app-compat.js"></script>
+  <script defer src="/__/firebase/11.1.0/firebase-firestore-compat.js"></script>
+  <script defer src="/__/firebase/init.js"></script>
   <style>
     body { font-family: sans-serif; margin: 40px; }
     h1 { color: #1976d2; }
@@ -16,50 +17,56 @@
 <body>
   <h1>Đăng kí tham gia sự kiện</h1>
   <form id="eventForm">
-    <label>Họ tên
-      <input type="text" id="name" value="{{NAME}}" readonly>
+    <label>Họ tên:
+      <input type="text" id="name" disabled>
     </label>
-    <label>Email
-      <input type="email" id="email" value="{{EMAIL}}" readonly>
+    <label>Email:
+      <input type="email" id="email" disabled>
     </label>
-    <label>Tham gia sự kiện
-      <select id="attend">
+    <label>Tham gia sự kiện:
+      <select id="participate">
         <option value="yes">Có</option>
         <option value="no">Không</option>
       </select>
     </label>
-    <label>Địa điểm
+    <label>Địa điểm:
       <input type="text" id="location">
     </label>
-    <label>Ghi chú
+    <label>Ghi chú:
       <textarea id="note"></textarea>
     </label>
     <button type="submit">Submit</button>
   </form>
-  <p id="result"></p>
   <script>
-    const firebaseConfig = {
-      // TODO: add your Firebase config
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    document.getElementById('eventForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        attend: document.getElementById('attend').value,
-        location: document.getElementById('location').value,
-        note: document.getElementById('note').value,
-        timestamp: Date.now()
-      };
-      try {
-        await db.collection('event').add(data);
-        document.getElementById('result').textContent = 'Đăng kí thành công!';
-        e.target.reset();
-      } catch (err) {
-        document.getElementById('result').textContent = 'Đã xảy ra lỗi';
-      }
+    document.addEventListener('DOMContentLoaded', () => {
+      const nameField = document.getElementById('name');
+      const emailField = document.getElementById('email');
+      nameField.value = '{{NAME}}';
+      emailField.value = '{{EMAIL}}';
+
+      const db = firebase.firestore();
+      const form = document.getElementById('eventForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+          name: nameField.value,
+          email: emailField.value,
+          participate: document.getElementById('participate').value === 'yes',
+          location: document.getElementById('location').value,
+          note: document.getElementById('note').value,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        try {
+          await db.collection('event').add(data);
+          alert('Đăng kí thành công!');
+          form.reset();
+          nameField.value = '{{NAME}}';
+          emailField.value = '{{EMAIL}}';
+        } catch (err) {
+          console.error(err);
+          alert('Đăng kí thất bại');
+        }
+      });
     });
   </script>
 </body>
